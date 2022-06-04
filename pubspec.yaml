@@ -9,10 +9,15 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
+  cached_network_image: ^3.2.1
   cupertino_icons: ^1.0.2
+  dio: ^4.0.4
+  dio_http_cache: ^0.3.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
   intl: ^0.17.0
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -21,3 +26,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - "assets/images/"
