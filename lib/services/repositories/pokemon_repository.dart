@@ -1,59 +1,78 @@
-import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:pokedex_demo/models/pokemondetail_model.dart';
+import 'package:pokedex_demo/models/pokemons_model.dart';
+// import 'package:pokedex_demo/models/pokemons_model.dart';
 
-import 'package:pokedex_demo/domain/entities/pokemon.dart';
-import 'package:pokedex_demo/domain/entities/pokemon_detail.dart';
+abstract class PokemonRepository {
+  Future<dynamic> getAllPokemons();
+  Future<dynamic> getPokemons({required int limit, required int page});
+  Future<dynamic> getPokemon(String id);
+}
 
-class PokemonRepository {
-  final String _baseURL = 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0';
-  Pokemons _pokemons = Pokemons();
-  Pokemons get pokemons => _pokemons;
+class PokemonDefaultRepository extends PokemonRepository {
+  late PokemonsModel _pokemonData = PokemonsModel();
+  PokemonsModel get pokermonsDetail => _pokemonData;
 
-  final List<PokemonDetailModel> _pokemonsDetail = [];
-  List<PokemonDetailModel> get pokemonDetail => _pokemonsDetail;
+  late final List<PokemonDetailModel> _pokemonDetailData = [];
+  List<PokemonDetailModel> get pokemonDetail => _pokemonDetailData;
 
-  Future<dynamic> getAllPokemon({required int limit, required int page}) async {
+  @override
+  Future<dynamic> getAllPokemons() async {
+    late final PokemonsModel pokemons;
     try {
-      final response = await Dio().get('$_baseURL/$limit&offset=$page');
-      _pokemons = Pokemons.fromJson(response.data);
-      final data = pokemonsFromJson(response.data);
+      final response =
+          await Dio().get('https://pokeapi.co/api/v2/pokemon?limit=20');
 
       if (response.statusCode == 200) {
-        _pokemons = data;
-        for (var result in _pokemons.results!) {
-          await getPokemonsDetail(resultURL: result.url!);
+        pokemons = PokemonsModel.fromJson(response.data);
+
+        for (var results in pokemons.results!) {
+          final fetch = await Dio().get(results.url!);
+          if (fetch.statusCode == 200) {
+            _pokemonDetailData.add(PokemonDetailModel.fromJson(fetch.data));
+            return _pokemonDetailData;
+            // pokemonsDetails.add(PokemonDetailModel.fromJson(fetch.data));
+
+          }
         }
-        return _pokemons;
       }
-      return _pokemons;
     } catch (e) {
-      debugPrint(e.toString());
+      throw UnimplementedError();
     }
   }
 
-  Future<dynamic> getPokemonsDetail({required String resultURL}) async {
+  @override
+  Future<PokemonDetailModel> getPokemon(String id) {
     try {
-      final response = await Dio().get(_baseURL);
-      final data = pokemonDetailModelFromJson(response.data);
-      if (response.statusCode == 200) {
-        _pokemonsDetail.add(data);
-
-        return _pokemonsDetail;
-      }
+      return Dio()
+          .get('https://pokeapi.co/api/v2/pokemon/$id')
+          .then((response) => PokemonDetailModel.fromJson(response.data));
     } catch (e) {
-      debugPrint(e.toString());
+      throw UnimplementedError();
     }
+    // throw UnimplementedError();
   }
 
-  Future<dynamic> getPokemon({required String pokemonId}) async {
+  @override
+  Future<dynamic> getPokemons({required int limit, required int page}) async {
+    late final PokemonsModel pokemons;
     try {
-      final response = await Dio().get('$_baseURL/$pokemonId');
-      final data = pokemonDetailModelFromJson(response.data);
+      final response = await Dio()
+          .get('https://pokeapi.co/api/v2/pokemon?limit=$limit&offset=$page');
       if (response.statusCode == 200) {
-        return data;
+        pokemons = PokemonsModel.fromJson(response.data);
+
+        for (var results in pokemons.results!) {
+          final fetch = await Dio().get(results.url!);
+          if (fetch.statusCode == 200) {
+            _pokemonDetailData.add(PokemonDetailModel.fromJson(fetch.data));
+            return _pokemonDetailData;
+          }
+        }
       }
     } catch (e) {
-      debugPrint(e.toString());
+      print('ERROR FETCHING ${e.toString()}');
+      throw UnimplementedError();
     }
   }
 }

@@ -3,12 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_demo/config/images.dart';
-import 'package:pokedex_demo/domain/entities/pokemon_detail.dart';
+import 'package:pokedex_demo/models/pokemondetail_model.dart';
 
 import 'package:pokedex_demo/states/pokemon/pokemon_bloc.dart';
-import 'package:pokedex_demo/states/pokemon/pokemon_event.dart';
 import 'package:pokedex_demo/states/pokemon/pokemon_selector.dart';
-import 'package:pokedex_demo/states/pokemon/pokemon_state.dart';
 import 'package:pokedex_demo/ui/widgets/main_app_bar.dart';
 import 'package:pokedex_demo/ui/widgets/pokeball_background.dart';
 import 'package:pokedex_demo/ui/widgets/pokemon_card.dart';
@@ -27,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return PokeballBackground(
       child: Stack(
-        children: [
+        children: const [
           _PokemonGrid(),
         ],
       ),

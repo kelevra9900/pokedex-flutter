@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_demo/config/images.dart';
-import 'package:pokedex_demo/domain/entities/pokemon.dart';
-// import 'package:pokedex_demo/domain/entities/pokemon_detail.dart';
-// import 'package:pokedex_demo/ui/widgets/pokemon_image.dart';
-// import 'package:pokedex_demo/ui/widgets/pokemon_type.dart';
+import 'package:pokedex_demo/models/pokemondetail_model.dart';
+import 'package:pokedex_demo/ui/widgets/pokemon_image.dart';
 import 'package:pokedex_demo/utils/getColors.dart';
 
 class PokemonCard extends StatelessWidget {
@@ -15,7 +13,7 @@ class PokemonCard extends StatelessWidget {
   static const double _pokeballFraction = 0.75;
   static const double _pokemonFraction = 0.76;
 
-  final Pokemons pokemon;
+  final PokemonDetailModel pokemon;
   final void Function()? onPress;
 
   @override
@@ -32,7 +30,7 @@ class PokemonCard extends StatelessWidget {
               BoxShadow(
                 // color: pokemon.color.withOpacity(0.4),
                 color: getBackGroundColor(
-                  pokemon.count.toString(),
+                  pokemon.id.toString(),
                 ).withOpacity(0.4),
                 blurRadius: 15,
                 offset: const Offset(0, 8),
@@ -84,21 +82,21 @@ class PokemonCard extends StatelessWidget {
     return Positioned(
       bottom: -2,
       right: 2,
-      child: Text('Image'),
-      // child: PokemonImage(
-      //   size: Size.square(pokemonSize),
-      //   pokemon: pokemon,
-      // ),
+      // child: Text('Image'),
+      child: PokemonImage(
+        size: Size.square(pokemonSize),
+        pokemon: pokemon,
+      ),
     );
   }
 
   Widget _buildPokemonNumber() {
-    return Positioned(
+    return const Positioned(
       top: 10,
       right: 14,
       child: Text(
         'test',
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
           color: Colors.black12,
@@ -109,7 +107,7 @@ class PokemonCard extends StatelessWidget {
 }
 
 class _CardContent extends StatelessWidget {
-  final Pokemons pokemon;
+  final PokemonDetailModel pokemon;
 
   const _CardContent(this.pokemon, {Key? key}) : super(key: key);
 
@@ -124,9 +122,9 @@ class _CardContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Hero(
-              tag: pokemon.count!,
+              tag: pokemon.id!,
               child: Text(
-                'pokemon name',
+                pokemon.name!,
                 style: const TextStyle(
                   fontSize: 14,
                   height: 0.7,

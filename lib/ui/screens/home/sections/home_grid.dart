@@ -1,7 +1,7 @@
 part of '../home.dart';
 
 class _PokemonGrid extends StatefulWidget {
-  _PokemonGrid({Key? key}) : super(key: key);
+  const _PokemonGrid({Key? key}) : super(key: key);
 
   @override
   State<_PokemonGrid> createState() => __PokemonGridState();
@@ -128,11 +128,10 @@ class __PokemonGridState extends State<_PokemonGrid> {
               delegate: SliverChildBuilderDelegate(
                 (_, index) {
                   return PokemonSelector(index, (pokemon, _) {
-                    return Text('data');
-                    // return PokemonCard(
-                    //   pokemon,
-                    //   onPress: () => _onPokemonPress(pokemon),
-                    // );
+                    return PokemonCard(
+                      pokemon,
+                      onPress: () => _onPokemonPress(pokemon),
+                    );
                   });
                 },
                 childCount: numberOfPokemons,

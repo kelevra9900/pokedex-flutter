@@ -1,4 +1,4 @@
-import 'package:pokedex_demo/domain/entities/pokemon_detail.dart';
+part of 'pokemon_bloc.dart';
 
 enum PokemonStateStatus {
   initial,
@@ -7,18 +7,18 @@ enum PokemonStateStatus {
   loadFailure,
   loadingMore,
   loadMoreSuccess,
-  loadMoreFailure
+  loadMoreFailure,
 }
 
 class PokemonState {
-  final PokemonStateStatus status;
-  final List<PokemonDetailModel> pokemons;
+  final PokemonStateStatus? status;
   final int selectedPokemonIndex;
+  final dynamic pokemons;
   final int page;
   final Exception? error;
   final bool canLoadMore;
 
-  PokemonDetailModel get selectedPokemon => pokemons[selectedPokemonIndex];
+  PokemonDetailModel get selectedPokemon => pokemons![selectedPokemonIndex];
 
   const PokemonState._({
     this.status = PokemonStateStatus.initial,
@@ -37,8 +37,7 @@ class PokemonState {
     );
   }
 
-  PokemonState asLoadSuccess(List<PokemonDetailModel> pokemons,
-      {bool canLoadMore = true}) {
+  PokemonState asLoadSuccess(dynamic pokemons, {bool canLoadMore = true}) {
     return copyWith(
       status: PokemonStateStatus.loadSuccess,
       pokemons: pokemons,
@@ -58,11 +57,11 @@ class PokemonState {
     return copyWith(status: PokemonStateStatus.loadingMore);
   }
 
-  PokemonState asLoadMoreSuccess(List<PokemonDetailModel> newPokemons,
+  PokemonState asLoadMoreSuccess(dynamic newPokemons,
       {bool canLoadMore = true}) {
     return copyWith(
       status: PokemonStateStatus.loadMoreSuccess,
-      pokemons: [...pokemons, ...newPokemons],
+      pokemons: [...pokemons!, ...newPokemons],
       page: canLoadMore ? page + 1 : page,
       canLoadMore: canLoadMore,
     );
@@ -77,7 +76,7 @@ class PokemonState {
 
   PokemonState copyWith({
     PokemonStateStatus? status,
-    List<PokemonDetailModel>? pokemons,
+    dynamic pokemons,
     int? selectedPokemonIndex,
     int? page,
     bool? canLoadMore,

@@ -101,17 +101,55 @@ class Species {
 }
 
 class Sprites {
+  String? backDefault;
+  dynamic backFemale;
+  String? backShiny;
+  dynamic backShinyFemale;
+  String? frontDefault;
+  dynamic frontFemale;
+  String? frontShiny;
+  dynamic frontShinyFemale;
   Other? other;
 
-  Sprites({this.other});
+  Sprites({
+    this.backDefault,
+    this.backFemale,
+    this.backShiny,
+    this.backShinyFemale,
+    this.frontDefault,
+    this.frontFemale,
+    this.frontShiny,
+    this.frontShinyFemale,
+    this.other,
+  });
 
-  factory Sprites.fromJson(Map<String, dynamic> json) => Sprites(
-        other: json["other"] == null ? null : Other.fromJson(json["other"]),
-      );
+  Sprites.fromJson(Map<String, dynamic> json) {
+    backDefault = json['back_default'];
+    backFemale = json['back_female'];
+    backShiny = json['back_shiny'];
+    backShinyFemale = json['back_shiny_female'];
+    frontDefault = json['front_default'];
+    frontFemale = json['front_female'];
+    frontShiny = json['front_shiny'];
+    frontShinyFemale = json['front_shiny_female'];
+    other = json['other'] != null ? Other.fromJson(json['other']) : null;
+  }
 
-  Map<String, dynamic> toJson() => {
-        "other": other == null ? null : other!.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['back_default'] = backDefault;
+    data['back_female'] = backFemale;
+    data['back_shiny'] = backShiny;
+    data['back_shiny_female'] = backShinyFemale;
+    data['front_default'] = frontDefault;
+    data['front_female'] = frontFemale;
+    data['front_shiny'] = frontShiny;
+    data['front_shiny_female'] = frontShinyFemale;
+    if (other != null) {
+      data['other'] = other!.toJson();
+    }
+    return data;
+  }
 }
 
 class Other {

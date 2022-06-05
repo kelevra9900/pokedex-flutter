@@ -1,13 +1,14 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:pokedex_demo/services/repositories/pokemon_repository.dart';
-import 'package:pokedex_demo/states/pokemon/pokemon_event.dart';
-import 'package:pokedex_demo/states/pokemon/pokemon_state.dart';
+import 'package:bloc/bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
+
+import 'package:pokedex_demo/models/pokemondetail_model.dart';
+import 'package:pokedex_demo/services/repositories/pokemon_repository.dart';
+
+part 'pokemon_event.dart';
+part 'pokemon_state.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   static const int pokemonsPerPage = 20;
-
   final PokemonRepository _pokemonRepository;
 
   PokemonBloc(this._pokemonRepository) : super(const PokemonState.initial()) {
@@ -28,8 +29,9 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
       emit(state.asLoading());
 
       final pokemons = event.loadAll
-          ? await _pokemonRepository.getAllPokemon(limit: 20, page: 0)
-          : await _pokemonRepository.getAllPokemon(limit: 10, page: 0);
+          ? await _pokemonRepository.getAllPokemons()
+          : await _pokemonRepository.getPokemons(
+              page: 1, limit: pokemonsPerPage);
 
       final canLoadMore = pokemons.length >= pokemonsPerPage;
 
@@ -46,10 +48,8 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
 
       emit(state.asLoadingMore());
 
-      final pokemons = await _pokemonRepository.getAllPokemon(
-        page: state.page + 1,
-        limit: pokemonsPerPage,
-      );
+      final pokemons =
+          await _pokemonRepository.getPokemons(page: 1, limit: pokemonsPerPage);
 
       final canLoadMore = pokemons.length >= pokemonsPerPage;
 
@@ -62,21 +62,20 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   void _onSelectChanged(
       PokemonSelectChanged event, Emitter<PokemonState> emit) async {
     try {
-      final pokemonIndex = state.pokemons.indexWhere(
-        (pokemon) => pokemon.id == event.pokemonId,
-      );
+      // final pokemonIndex = state.pokemons.indexWhere(
+      //   (pokemon) => pokemon.number == event.pokemonId,
+      // );
 
-      if (pokemonIndex < 0 || pokemonIndex >= state.pokemons.length) return;
+      // if (pokemonIndex < 0 || pokemonIndex >= state.pokemons.length) return;
 
-      final pokemon =
-          await _pokemonRepository.getPokemon(pokemonId: event.pokemonId);
+      // final pokemon = await _pokemonRepository.getPokemon(event.pokemonId);
 
-      if (pokemon == null) return;
+      // if (pokemon == null) return;
 
-      emit(state.copyWith(
-        pokemons: state.pokemons..setAll(pokemonIndex, [pokemon]),
-        selectedPokemonIndex: pokemonIndex,
-      ));
+      // emit(state.copyWith(
+      //   pokemons: state.pokemons..setAll(pokemonIndex, [pokemon]),
+      //   selectedPokemonIndex: pokemonIndex,
+      // ));
     } on Exception catch (e) {
       emit(state.asLoadMoreFailure(e));
     }

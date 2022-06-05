@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex_demo/domain/entities/pokemon_detail.dart';
+import 'package:pokedex_demo/models/pokemondetail_model.dart';
 import 'package:pokedex_demo/states/pokemon/pokemon_bloc.dart';
-import 'package:pokedex_demo/states/pokemon/pokemon_state.dart';
 
 class PokemonStateSelector<T>
     extends BlocSelector<PokemonBloc, PokemonState, T> {
@@ -19,7 +18,7 @@ class PokemonStateStatusSelector
     extends PokemonStateSelector<PokemonStateStatus> {
   PokemonStateStatusSelector(Widget Function(PokemonStateStatus) builder)
       : super(
-          selector: (state) => state.status,
+          selector: (state) => state.status!,
           builder: builder,
         );
 }
@@ -35,7 +34,7 @@ class PokemonCanLoadMoreSelector extends PokemonStateSelector<bool> {
 class NumberOfPokemonsSelector extends PokemonStateSelector<int> {
   NumberOfPokemonsSelector(Widget Function(int) builder)
       : super(
-          selector: (state) => state.pokemons.length,
+          selector: (state) => state.pokemons!.length,
           builder: builder,
         );
 }
@@ -52,7 +51,7 @@ class PokemonSelector extends PokemonStateSelector<PokemonSelectorState> {
   PokemonSelector(int index, Widget Function(PokemonDetailModel, bool) builder)
       : super(
           selector: (state) => PokemonSelectorState(
-            state.pokemons[index],
+            state.pokemons![index],
             state.selectedPokemonIndex == index,
           ),
           builder: (value) => builder(value.pokemon, value.selected),
