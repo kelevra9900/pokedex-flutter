@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:pokedex_demo/core/fade_page_route.dart';
 import 'package:pokedex_demo/ui/screens/auth/auth.dart';
 import 'package:pokedex_demo/ui/screens/home/home.dart';
+import 'package:pokedex_demo/ui/screens/pokemon_info/pokemon_info.dart';
 import 'package:pokedex_demo/ui/screens/splash/splash.dart';
 
-enum Routes { splash, home, auth }
+enum Routes { splash, home, auth, pokemonInfo }
 
 class _Paths {
   static const String splash = '/';
-  static const String home = '/home';
   static const String auth = '/auth';
+  static const String home = '/home';
+  static const String pokemonInfo = '/home/pokemon';
 
   static const Map<Routes, String> _pathMap = {
     Routes.splash: _Paths.splash,
-    Routes.home: _Paths.home,
     Routes.auth: _Paths.auth,
+    Routes.home: _Paths.home,
+    Routes.pokemonInfo: _Paths.pokemonInfo,
   };
 
   static String of(Routes route) => _pathMap[route] ?? splash;
@@ -33,6 +36,9 @@ class AppNavigator {
 
       case _Paths.home:
         return FadeRoute(page: const HomeScreen());
+
+      case _Paths.pokemonInfo:
+        return FadeRoute(page: const PokemonInfoScreen());
 
       default:
         return FadeRoute(page: const SplashScreen());

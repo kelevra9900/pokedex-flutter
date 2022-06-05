@@ -54,8 +54,7 @@ class __PokemonGridState extends State<_PokemonGrid> {
 
   void _onPokemonPress(PokemonDetailModel pokemon) {
     pokemonBloc.add(PokemonSelectChanged(pokemonId: pokemon.id.toString()));
-
-    // AppNavigator.push(Routes.pokemonInfo, pokemon);
+    AppNavigator.push(Routes.pokemonInfo, pokemon);
   }
 
   @override
