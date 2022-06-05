@@ -8,7 +8,7 @@ part 'pokemon_event.dart';
 part 'pokemon_state.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
-  static const int pokemonsPerPage = 20;
+  static const int pokemonsPerPage = 151;
   final PokemonRepository _pokemonRepository;
 
   PokemonBloc(this._pokemonRepository) : super(const PokemonState.initial()) {
@@ -34,9 +34,6 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
               page: 1, limit: pokemonsPerPage);
 
       final canLoadMore = pokemons.length >= pokemonsPerPage;
-
-      print('Contadoooorr:>:>:>:>: $pokemonsPerPage');
-
       emit(state.asLoadSuccess(pokemons, canLoadMore: canLoadMore));
     } on Exception catch (e) {
       emit(state.asLoadFailure(e));
@@ -64,20 +61,20 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   void _onSelectChanged(
       PokemonSelectChanged event, Emitter<PokemonState> emit) async {
     try {
-      // final pokemonIndex = state.pokemons.indexWhere(
-      //   (pokemon) => pokemon.number == event.pokemonId,
-      // );
+      final pokemonIndex = state.pokemons.indexWhere(
+        (pokemon) => pokemon.id == event.pokemonId,
+      );
 
-      // if (pokemonIndex < 0 || pokemonIndex >= state.pokemons.length) return;
+      if (pokemonIndex < 0 || pokemonIndex >= state.pokemons.length) return;
 
-      // final pokemon = await _pokemonRepository.getPokemon(event.pokemonId);
+      final pokemon = await _pokemonRepository.getPokemon(event.pokemonId);
 
-      // if (pokemon == null) return;
+      if (pokemon == null) return;
 
-      // emit(state.copyWith(
-      //   pokemons: state.pokemons..setAll(pokemonIndex, [pokemon]),
-      //   selectedPokemonIndex: pokemonIndex,
-      // ));
+      emit(state.copyWith(
+        pokemons: state.pokemons..setAll(pokemonIndex, [pokemon]),
+        selectedPokemonIndex: pokemonIndex,
+      ));
     } on Exception catch (e) {
       emit(state.asLoadMoreFailure(e));
     }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:pokedex_demo/models/pokemondetail_model.dart';
 import 'package:pokedex_demo/models/pokemons_model.dart';
@@ -70,7 +68,6 @@ class PokemonDefaultRepository extends PokemonRepository {
         return _pokemonDetailData;
       }
     } catch (e) {
-      print('ERROR FETCHING ${e.toString()}');
       throw UnimplementedError();
     }
   }
