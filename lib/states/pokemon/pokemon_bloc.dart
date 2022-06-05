@@ -35,6 +35,8 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
 
       final canLoadMore = pokemons.length >= pokemonsPerPage;
 
+      print('Contadoooorr:>:>:>:>: $pokemonsPerPage');
+
       emit(state.asLoadSuccess(pokemons, canLoadMore: canLoadMore));
     } on Exception catch (e) {
       emit(state.asLoadFailure(e));
