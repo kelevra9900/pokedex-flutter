@@ -33,8 +33,9 @@ class MainSliverAppBar extends SliverAppBar {
           ),
           actions: [
             IconButton(
-              padding: const EdgeInsets.symmetric(horizontal: mainAppbarPadding),
-              icon: const Icon(Icons.favorite_border_outlined, color: Colors.black),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: mainAppbarPadding),
+              icon: const Icon(Icons.menu, color: Colors.black),
               onPressed: onTrailingPress,
             ),
           ],
@@ -44,15 +45,19 @@ class MainSliverAppBar extends SliverAppBar {
               final minHeight = safeAreaTop + kToolbarHeight;
               final maxHeight = height + safeAreaTop;
 
-              final percent = (constraints.maxHeight - minHeight) / (maxHeight - minHeight);
+              final percent =
+                  (constraints.maxHeight - minHeight) / (maxHeight - minHeight);
               final fontSize = _textStyle.fontSize ?? 16;
               final currentTextStyle = _textStyle.copyWith(
                 fontSize: fontSize + (expandedFontSize - fontSize) * percent,
               );
 
-              final textWidth = getTextSize(context, title, currentTextStyle).width;
+              final textWidth =
+                  getTextSize(context, title, currentTextStyle).width;
               const startX = mainAppbarPadding;
-              final endX = MediaQuery.of(context).size.width / 2 - textWidth / 2 - startX;
+              final endX = MediaQuery.of(context).size.width / 2 -
+                  textWidth / 2 -
+                  startX;
               final dx = startX + endX - endX * percent;
 
               return Container(
@@ -63,7 +68,8 @@ class MainSliverAppBar extends SliverAppBar {
                     Padding(
                       padding: const EdgeInsets.only(top: kToolbarHeight / 3),
                       child: Transform.translate(
-                        offset: Offset(dx, constraints.maxHeight - kToolbarHeight),
+                        offset:
+                            Offset(dx, constraints.maxHeight - kToolbarHeight),
                         child: Text(
                           title,
                           style: currentTextStyle,
