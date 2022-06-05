@@ -4,6 +4,7 @@ import 'package:pokedex_demo/app.dart';
 
 import 'package:pokedex_demo/core/network.dart';
 import 'package:pokedex_demo/services/repositories/pokemon_repository.dart';
+import 'package:pokedex_demo/states/pokemon/pokemon_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,17 @@ void main() async {
           create: (context) => PokemonRepository(),
         ),
       ],
-      child: const PokedexApp(),
+      child: MultiBlocProvider(
+        providers: [
+          ///
+          /// BLoCs
+          ///
+          BlocProvider<PokemonBloc>(
+            create: (context) => PokemonBloc(context.read<PokemonRepository>()),
+          ),
+        ],
+        child: const PokedexApp(),
+      ),
     ),
   );
 }

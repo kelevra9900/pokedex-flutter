@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:pokedex_demo/config/images.dart';
+import 'package:pokedex_demo/routes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -9,7 +13,18 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   static const double _splashIconSize = 90;
-  
+
+  @override
+  void initState() {
+    scheduleMicrotask(() async {
+      await AppImages.precacheAssets(context);
+      await Future.delayed(const Duration(milliseconds: 400));
+      await AppNavigator.replaceWith(Routes.home);
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

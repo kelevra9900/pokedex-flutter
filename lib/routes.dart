@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_demo/core/fade_page_route.dart';
+import 'package:pokedex_demo/ui/screens/home/home.dart';
 import 'package:pokedex_demo/ui/screens/splash/splash.dart';
 
 enum Routes { splash, home }
@@ -20,20 +21,19 @@ class AppNavigator {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   static Route onGenerateRoute(RouteSettings settings) {
-    switch(settings.name){
+    switch (settings.name) {
       case _Paths.splash:
         return FadeRoute(page: const SplashScreen());
 
       case _Paths.home:
-        return FadeRoute(page: const SplashScreen());
+        return FadeRoute(page: const HomeScreen());
 
-      default: 
+      default:
         return FadeRoute(page: const SplashScreen());
     }
   }
 
-
-    static Future? push<T>(Routes route, [T? arguments]) =>
+  static Future? push<T>(Routes route, [T? arguments]) =>
       state?.pushNamed(_Paths.of(route), arguments: arguments);
 
   static Future? replaceWith<T>(Routes route, [T? arguments]) =>
