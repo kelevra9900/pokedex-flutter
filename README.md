@@ -6,7 +6,7 @@ A new Flutter project.
 
 | Home page | Demo    | 
 |-----------|----------------| 
-| ![](https://github.com/kelevra9900/pokedex_demo/blob/main/screenshots/1.png) | ![](https://github.com/kelevra9900/pokedex_demo/blob/main/screenshots/2.gif)|
+| ![](https://github.com/kelevra9900/pokedex-flutter/blob/main/screenshots/1.png) | ![](https://github.com/kelevra9900/pokedex-flutter/blob/main/screenshots/2.gif)|
 
 
 ## Getting Started
