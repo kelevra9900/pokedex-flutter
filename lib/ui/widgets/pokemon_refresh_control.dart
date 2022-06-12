@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pokedex_demo/config/images.dart';
+import 'package:pokedex_demo/configs/images.dart';
 
 class PokemonRefreshControl extends StatelessWidget {
   final Future<void> Function() onRefresh;

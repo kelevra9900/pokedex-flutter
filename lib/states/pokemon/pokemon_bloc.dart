@@ -1,14 +1,12 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
-
-import 'package:pokedex_demo/models/pokemondetail_model.dart';
-import 'package:pokedex_demo/services/repositories/pokemon_repository.dart';
-
-part 'pokemon_event.dart';
-part 'pokemon_state.dart';
+import 'package:pokedex_demo/data/repositories/pokemon_repository.dart';
+import 'package:pokedex_demo/states/pokemon/pokemon_event.dart';
+import 'package:pokedex_demo/states/pokemon/pokemon_state.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
-  static const int pokemonsPerPage = 151;
+  static const int pokemonsPerPage = 20;
+
   final PokemonRepository _pokemonRepository;
 
   PokemonBloc(this._pokemonRepository) : super(const PokemonState.initial()) {
@@ -34,6 +32,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
               page: 1, limit: pokemonsPerPage);
 
       final canLoadMore = pokemons.length >= pokemonsPerPage;
+
       emit(state.asLoadSuccess(pokemons, canLoadMore: canLoadMore));
     } on Exception catch (e) {
       emit(state.asLoadFailure(e));
@@ -47,8 +46,10 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
 
       emit(state.asLoadingMore());
 
-      final pokemons =
-          await _pokemonRepository.getPokemons(page: 1, limit: pokemonsPerPage);
+      final pokemons = await _pokemonRepository.getPokemons(
+        page: state.page + 1,
+        limit: pokemonsPerPage,
+      );
 
       final canLoadMore = pokemons.length >= pokemonsPerPage;
 
@@ -62,7 +63,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
       PokemonSelectChanged event, Emitter<PokemonState> emit) async {
     try {
       final pokemonIndex = state.pokemons.indexWhere(
-        (pokemon) => pokemon.id == event.pokemonId,
+        (pokemon) => pokemon.number == event.pokemonId,
       );
 
       if (pokemonIndex < 0 || pokemonIndex >= state.pokemons.length) return;

@@ -27,7 +27,7 @@ class _PokemonInfoCardState extends State<AutoSlideUpPanel>
   void initState() {
     _autoSlideUpController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
     )..forward();
 
     super.initState();

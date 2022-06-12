@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex_demo/config/colors.dart';
+import 'package:pokedex_demo/configs/colors.dart';
 
 class MainTabData {
   final Widget child;
@@ -28,7 +28,7 @@ class MainTabView extends StatelessWidget {
       initialIndex: 0,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
         ),
@@ -47,7 +47,7 @@ class MainTabView extends StatelessWidget {
 
   Widget _buildTopAnimatedPadding() {
     if (paddingAnimation == null) {
-      return SizedBox(height: 6);
+      return const SizedBox(height: 6);
     }
 
     return AnimatedBuilder(

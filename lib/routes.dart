@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_demo/core/fade_page_route.dart';
-import 'package:pokedex_demo/ui/screens/auth/auth.dart';
 import 'package:pokedex_demo/ui/screens/home/home.dart';
+import 'package:pokedex_demo/ui/screens/items/items.dart';
+import 'package:pokedex_demo/ui/screens/pokedex/pokedex.dart';
 import 'package:pokedex_demo/ui/screens/pokemon_info/pokemon_info.dart';
 import 'package:pokedex_demo/ui/screens/splash/splash.dart';
+import 'package:pokedex_demo/ui/screens/types/type_screen.dart';
 
-enum Routes { splash, home, auth, pokemonInfo }
+enum Routes { splash, home, pokedex, pokemonInfo, typeEffects, items }
 
 class _Paths {
   static const String splash = '/';
-  static const String auth = '/auth';
   static const String home = '/home';
+  static const String pokedex = '/home/pokedex';
   static const String pokemonInfo = '/home/pokemon';
+  static const String typeEffectsScreen = '/home/type';
+  static const String itemsList = '/home/items';
 
   static const Map<Routes, String> _pathMap = {
     Routes.splash: _Paths.splash,
-    Routes.auth: _Paths.auth,
     Routes.home: _Paths.home,
+    Routes.pokedex: _Paths.pokedex,
     Routes.pokemonInfo: _Paths.pokemonInfo,
+    Routes.typeEffects: _Paths.typeEffectsScreen,
+    Routes.items: _Paths.itemsList
   };
 
   static String of(Routes route) => _pathMap[route] ?? splash;
@@ -29,19 +35,23 @@ class AppNavigator {
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case _Paths.splash:
-        return FadeRoute(page: const SplashScreen());
+        return FadeRoute(page: SplashScreen());
 
-      case _Paths.auth:
-        return FadeRoute(page: const AuthScreen());
-
-      case _Paths.home:
-        return FadeRoute(page: const HomeScreen());
+      case _Paths.pokedex:
+        return FadeRoute(page: const PokedexScreen());
 
       case _Paths.pokemonInfo:
-        return FadeRoute(page: const PokemonInfoScreen());
+        return FadeRoute(page: PokemonInfo());
 
+      case _Paths.typeEffectsScreen:
+        return FadeRoute(page: TypeEffectScreen());
+
+      case _Paths.itemsList:
+        return FadeRoute(page: const ItemsScreen());
+
+      case _Paths.home:
       default:
-        return FadeRoute(page: const SplashScreen());
+        return FadeRoute(page: HomeScreen());
     }
   }
 

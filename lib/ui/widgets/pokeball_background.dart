@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex_demo/config/colors.dart';
-import 'package:pokedex_demo/config/images.dart';
+import 'package:pokedex_demo/configs/colors.dart';
+import 'package:pokedex_demo/configs/images.dart';
 import 'package:pokedex_demo/ui/widgets/main_app_bar.dart';
 
 class PokeballBackground extends StatelessWidget {
   static const double _pokeballWidthFraction = 0.664;
 
   final Widget child;
+  final Widget? floatingActionButton;
 
   const PokeballBackground({
     Key? key,
     required this.child,
+    this.floatingActionButton,
   }) : super(key: key);
 
   @override
@@ -45,6 +47,7 @@ class PokeballBackground extends StatelessWidget {
           child,
         ],
       ),
+      floatingActionButton: floatingActionButton,
     );
   }
 }

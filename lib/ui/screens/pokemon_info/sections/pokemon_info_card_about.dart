@@ -58,7 +58,7 @@ class _TextIcon extends StatelessWidget {
 }
 
 class _PokemonAbout extends StatelessWidget {
-  final PokemonDetailModel pokemon;
+  final Pokemon pokemon;
 
   const _PokemonAbout(this.pokemon);
 
@@ -82,16 +82,15 @@ class _PokemonAbout extends StatelessWidget {
       },
       child: Column(
         children: <Widget>[
-          _buildDescription('descripcion'),
+          _buildDescription(pokemon.description),
           const SizedBox(height: 28),
-          _buildHeightWeight(
-              pokemon.height.toString(), pokemon.weight.toString()),
+          _buildHeightWeight(pokemon.height, pokemon.weight),
           const SizedBox(height: 31),
-          _buildBreeding('Genre', []),
+          _buildBreeding(pokemon.gender, pokemon.eggGroups),
           const SizedBox(height: 35),
           _buildLocation(),
           const SizedBox(height: 26),
-          // _buildTraining('EXP),
+          _buildTraining(pokemon.baseExp),
         ],
       ),
     );
@@ -146,27 +145,27 @@ class _PokemonAbout extends StatelessWidget {
     );
   }
 
-  Widget _buildBreeding(dynamic gender, List<String> eggGroups) {
+  Widget _buildBreeding(PokemonGender gender, List<String> eggGroups) {
     return _ContentSection(
       label: 'Breeding',
       children: [
         Row(
           children: <Widget>[
             Expanded(child: _Label('Gender')),
-            // if (gender.genderless)
-            //   const Expanded(
-            //     flex: 3,
-            //     child: Text('Genderless', style: TextStyle(height: 0.8)),
-            //   )
-            // else ...[
-            //   Expanded(
-            //     child: _TextIcon(AppImages.male, '${gender.male}%'),
-            //   ),
-            //   Expanded(
-            //     flex: 2,
-            //     child: _TextIcon(AppImages.female, '${gender.female}%'),
-            //   ),
-            // ],
+            if (gender.genderless)
+              const Expanded(
+                flex: 3,
+                child: Text('Genderless', style: TextStyle(height: 0.8)),
+              )
+            else ...[
+              Expanded(
+                child: _TextIcon(AppImages.male, '${gender.male}%'),
+              ),
+              Expanded(
+                flex: 2,
+                child: _TextIcon(AppImages.female, '${gender.female}%'),
+              ),
+            ],
           ],
         ),
         const SizedBox(height: 18),
@@ -178,7 +177,7 @@ class _PokemonAbout extends StatelessWidget {
               child: Text(eggGroups.join(', '),
                   style: const TextStyle(height: 0.8)),
             ),
-            const Expanded(flex: 1, child: const SizedBox()),
+            const Expanded(flex: 1, child: SizedBox()),
           ],
         ),
       ],

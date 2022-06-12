@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:pokedex_demo/routes.dart';
 import 'package:pokedex_demo/utils/size.dart';
@@ -35,7 +37,8 @@ class MainSliverAppBar extends SliverAppBar {
             IconButton(
               padding:
                   const EdgeInsets.symmetric(horizontal: mainAppbarPadding),
-              icon: const Icon(Icons.menu, color: Colors.black),
+              icon: const Icon(Icons.favorite_border_outlined,
+                  color: Colors.black),
               onPressed: onTrailingPress,
             ),
           ],
@@ -90,14 +93,14 @@ class MainAppBar extends AppBar {
           title: title,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: IconButton(
+          leading: const IconButton(
             padding: EdgeInsets.symmetric(horizontal: mainAppbarPadding),
             icon: Icon(Icons.arrow_back),
             onPressed: AppNavigator.pop,
           ),
           actions: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: mainAppbarPadding),
+              padding: const EdgeInsets.only(right: mainAppbarPadding),
               child: Icon(rightIcon),
             ),
           ],

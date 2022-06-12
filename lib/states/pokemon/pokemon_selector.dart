@@ -1,7 +1,10 @@
+// ignore_for_file: hash_and_equals, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex_demo/models/pokemondetail_model.dart';
+import 'package:pokedex_demo/domain/entities/pokemon.dart';
 import 'package:pokedex_demo/states/pokemon/pokemon_bloc.dart';
+import 'package:pokedex_demo/states/pokemon/pokemon_state.dart';
 
 class PokemonStateSelector<T>
     extends BlocSelector<PokemonBloc, PokemonState, T> {
@@ -34,13 +37,13 @@ class PokemonCanLoadMoreSelector extends PokemonStateSelector<bool> {
 class NumberOfPokemonsSelector extends PokemonStateSelector<int> {
   NumberOfPokemonsSelector(Widget Function(int) builder)
       : super(
-          selector: (state) => state.pokemons!.length,
+          selector: (state) => state.pokemons.length,
           builder: builder,
         );
 }
 
-class CurrentPokemonSelector extends PokemonStateSelector<PokemonDetailModel> {
-  CurrentPokemonSelector(Widget Function(PokemonDetailModel) builder)
+class CurrentPokemonSelector extends PokemonStateSelector<Pokemon> {
+  CurrentPokemonSelector(Widget Function(Pokemon) builder)
       : super(
           selector: (state) => state.selectedPokemon,
           builder: builder,
@@ -48,10 +51,10 @@ class CurrentPokemonSelector extends PokemonStateSelector<PokemonDetailModel> {
 }
 
 class PokemonSelector extends PokemonStateSelector<PokemonSelectorState> {
-  PokemonSelector(int index, Widget Function(PokemonDetailModel, bool) builder)
+  PokemonSelector(int index, Widget Function(Pokemon, bool) builder)
       : super(
           selector: (state) => PokemonSelectorState(
-            state.pokemons![index],
+            state.pokemons[index],
             state.selectedPokemonIndex == index,
           ),
           builder: (value) => builder(value.pokemon, value.selected),
@@ -59,7 +62,7 @@ class PokemonSelector extends PokemonStateSelector<PokemonSelectorState> {
 }
 
 class PokemonSelectorState {
-  final PokemonDetailModel pokemon;
+  final Pokemon pokemon;
   final bool selected;
 
   const PokemonSelectorState(this.pokemon, this.selected);

@@ -1,25 +1,25 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pokedex_demo/config/images.dart';
+import 'package:pokedex_demo/configs/images.dart';
 import 'package:pokedex_demo/routes.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
-
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<StatefulWidget> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  static const double _splashIconSize = 90;
+  static const double _splashIconSize = 50;
 
   @override
   void initState() {
     scheduleMicrotask(() async {
       await AppImages.precacheAssets(context);
       await Future.delayed(const Duration(milliseconds: 400));
-      await AppNavigator.replaceWith(Routes.auth);
+      await AppNavigator.replaceWith(Routes.home);
     });
 
     super.initState();
@@ -33,11 +33,11 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Image(
-              image: AssetImage('assets/images/pokedex.png'),
+              image: AppImages.pikloader,
               width: _splashIconSize,
               height: _splashIconSize,
+              fit: BoxFit.contain,
             ),
-            SizedBox(height: 10),
             Text(
               'Pokedex',
               textAlign: TextAlign.center,
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
-            ),
+            )
           ],
         ),
       ),

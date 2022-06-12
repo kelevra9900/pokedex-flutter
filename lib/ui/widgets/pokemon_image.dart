@@ -1,13 +1,15 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cached_network_image_platform_interface/cached_network_image_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:pokedex_demo/config/images.dart';
-import 'package:pokedex_demo/models/pokemondetail_model.dart';
+import 'package:pokedex_demo/configs/images.dart';
+import 'package:pokedex_demo/domain/entities/pokemon.dart';
 
 class PokemonImage extends StatelessWidget {
   static const Size _cacheMaxSize = Size(700, 700);
 
-  final PokemonDetailModel pokemon;
+  final Pokemon pokemon;
   final EdgeInsets padding;
   final bool useHero;
   final Size size;
@@ -20,7 +22,7 @@ class PokemonImage extends StatelessWidget {
     required this.size,
     this.padding = EdgeInsets.zero,
     this.useHero = true,
-    this.placeholder = AppImages.charmander,
+    this.placeholder = AppImages.bulbasaur,
     this.tintColor,
   }) : super(key: key);
 
@@ -29,13 +31,13 @@ class PokemonImage extends StatelessWidget {
     return HeroMode(
       enabled: useHero,
       child: Hero(
-        tag: pokemon.id.toString() + pokemon.name!,
+        tag: pokemon.image,
         child: AnimatedPadding(
           duration: const Duration(milliseconds: 600),
           curve: Curves.easeOutQuint,
           padding: padding,
           child: CachedNetworkImage(
-            imageUrl: pokemon.sprites!.frontDefault!,
+            imageUrl: pokemon.image,
             imageRenderMethodForWeb: ImageRenderMethodForWeb.HtmlImage,
             useOldImageOnUrlChange: true,
             maxWidthDiskCache: _cacheMaxSize.width.toInt(),

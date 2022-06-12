@@ -1,20 +1,22 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
-import 'package:pokedex_demo/config/images.dart';
-import 'package:pokedex_demo/models/pokemondetail_model.dart';
+import 'package:pokedex_demo/configs/images.dart';
+import 'package:pokedex_demo/domain/entities/pokemon.dart';
 import 'package:pokedex_demo/ui/widgets/pokemon_image.dart';
-import 'package:pokedex_demo/utils/getColors.dart';
+import 'package:pokedex_demo/ui/widgets/pokemon_type.dart';
 
 class PokemonCard extends StatelessWidget {
+  static const double _pokeballFraction = 0.75;
+  static const double _pokemonFraction = 0.76;
+
+  final Pokemon pokemon;
+  final void Function()? onPress;
+
   const PokemonCard(
     this.pokemon, {
     this.onPress,
   });
-
-  static const double _pokeballFraction = 0.75;
-  static const double _pokemonFraction = 0.76;
-
-  final PokemonDetailModel pokemon;
-  final void Function()? onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +26,11 @@ class PokemonCard extends StatelessWidget {
 
         return Container(
           decoration: BoxDecoration(
-            color: Colors.red,
+            color: pokemon.color,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                // color: pokemon.color.withOpacity(0.4),
-                color: getBackGroundColor(
-                  pokemon.id.toString(),
-                ).withOpacity(0.4),
+                color: pokemon.color.withOpacity(0.4),
                 blurRadius: 15,
                 offset: const Offset(0, 8),
               ),
@@ -40,7 +39,7 @@ class PokemonCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Material(
-              color: Colors.red,
+              color: pokemon.color,
               child: InkWell(
                 onTap: onPress,
                 splashColor: Colors.white10,
@@ -82,7 +81,6 @@ class PokemonCard extends StatelessWidget {
     return Positioned(
       bottom: -2,
       right: 2,
-      // child: Text('Image'),
       child: PokemonImage(
         size: Size.square(pokemonSize),
         pokemon: pokemon,
@@ -91,12 +89,12 @@ class PokemonCard extends StatelessWidget {
   }
 
   Widget _buildPokemonNumber() {
-    return const Positioned(
+    return Positioned(
       top: 10,
       right: 14,
       child: Text(
-        'test',
-        style: TextStyle(
+        pokemon.number,
+        style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
           color: Colors.black12,
@@ -107,7 +105,7 @@ class PokemonCard extends StatelessWidget {
 }
 
 class _CardContent extends StatelessWidget {
-  final PokemonDetailModel pokemon;
+  final Pokemon pokemon;
 
   const _CardContent(this.pokemon, {Key? key}) : super(key: key);
 
@@ -122,9 +120,9 @@ class _CardContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Hero(
-              tag: pokemon.id!,
+              tag: pokemon.number + pokemon.name,
               child: Text(
-                pokemon.name!,
+                pokemon.name,
                 style: const TextStyle(
                   fontSize: 14,
                   height: 0.7,
@@ -134,22 +132,22 @@ class _CardContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            // ..._buildTypes(context),
+            ..._buildTypes(context),
           ],
         ),
       ),
     );
   }
 
-  // List<Widget> _buildTypes(BuildContext context) {
-  //   return pokemon.types!
-  //       .take(2)
-  //       .map(
-  //         (type) => Padding(
-  //           padding: const EdgeInsets.only(bottom: 6),
-  //           child: PokemonType(type),
-  //         ),
-  //       )
-  //       .toList();
-  // }
+  List<Widget> _buildTypes(BuildContext context) {
+    return pokemon.types
+        .take(2)
+        .map(
+          (type) => Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: PokemonType(type),
+          ),
+        )
+        .toList();
+  }
 }

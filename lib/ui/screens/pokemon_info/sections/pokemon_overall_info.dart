@@ -124,7 +124,7 @@ class _PokemonOverallInfoState extends State<_PokemonOverallInfo>
         _calculatePokemonNamePosition();
 
         return Text(
-          pokemon.name!,
+          pokemon.name,
           key: _targetTextKey,
           style: const TextStyle(
             color: Colors.transparent,
@@ -154,7 +154,7 @@ class _PokemonOverallInfoState extends State<_PokemonOverallInfo>
                 offset: Offset(textDiffLeft * value, textDiffTop * value),
                 child: CurrentPokemonSelector((pokemon) {
                   return HeroText(
-                    pokemon.name!,
+                    pokemon.name,
                     textKey: _currentTextKey,
                     style: TextStyle(
                       color: Colors.white,
@@ -172,7 +172,7 @@ class _PokemonOverallInfoState extends State<_PokemonOverallInfo>
               animation: textFadeAnimation,
               child: CurrentPokemonSelector((pokemon) {
                 return HeroText(
-                  pokemon.id.toString(),
+                  pokemon.number,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w900,
@@ -198,21 +198,21 @@ class _PokemonOverallInfoState extends State<_PokemonOverallInfo>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // Expanded(
-              //   child: Wrap(
-              //     spacing: 8,
-              //     runSpacing: 8,
-              //     children: pokemon.types!
-              //         .take(3)
-              //         .map((type) => PokemonType(type, large: true))
-              //         .toList(),
-              //   ),
-              // ),
+              Expanded(
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: pokemon.types
+                      .take(3)
+                      .map((type) => PokemonType(type, large: true))
+                      .toList(),
+                ),
+              ),
               AnimatedSlide(
                 animation: _horizontalSlideController,
-                child: const Text(
-                  'Generación',
-                  style: TextStyle(color: Colors.white),
+                child: Text(
+                  pokemon.genera,
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ],

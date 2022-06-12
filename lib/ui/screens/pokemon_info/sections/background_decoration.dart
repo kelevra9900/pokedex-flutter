@@ -16,8 +16,8 @@ class _BoxDecoration extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
           gradient: LinearGradient(
-            begin: Alignment(-0.2, -0.2),
-            end: Alignment(1.5, -0.3),
+            begin: const Alignment(-0.2, -0.2),
+            end: const Alignment(1.5, -0.3),
             colors: [
               Colors.white.withOpacity(0.3),
               Colors.white.withOpacity(0),
@@ -48,6 +48,18 @@ class _DottedDecoration extends StatelessWidget {
       ),
     );
   }
+
+  // const _DottedDecoration({
+  //   required Animation<double> animation,
+  // }) : super(
+  //         animation: animation,
+  //         child: const Image(
+  //           image: AppImages.dotted,
+  //           width: size.width,
+  //           height: size.height,
+  //           color: Colors.white30,
+  //         ),
+  //       );
 }
 
 class _BackgroundDecoration extends StatefulWidget {
@@ -80,7 +92,7 @@ class _BackgroundDecorationState extends State<_BackgroundDecoration> {
       return AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         constraints: const BoxConstraints.expand(),
-        color: Colors.green,
+        color: pokemon.color,
       );
     });
   }

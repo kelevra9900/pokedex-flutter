@@ -1,41 +1,46 @@
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api
+
 import 'dart:math';
+
 import 'package:flutter/material.dart' hide AnimatedSlide;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex_demo/config/colors.dart';
-
-import 'package:pokedex_demo/config/images.dart';
-import 'package:pokedex_demo/models/pokemondetail_model.dart';
+import 'package:pokedex_demo/configs/colors.dart';
+import 'package:pokedex_demo/configs/images.dart';
+import 'package:pokedex_demo/domain/entities/pokemon.dart';
+import 'package:pokedex_demo/domain/entities/pokemon_props.dart';
+import 'package:pokedex_demo/domain/entities/pokemon_types.dart';
 import 'package:pokedex_demo/states/pokemon/pokemon_bloc.dart';
+import 'package:pokedex_demo/states/pokemon/pokemon_event.dart';
 import 'package:pokedex_demo/states/pokemon/pokemon_selector.dart';
-import 'package:pokedex_demo/ui/widgets/animated_slide.dart';
-
-// import 'package:pokedex_demo/ui/widgets/animated_slide.dart';
-import 'package:pokedex_demo/ui/widgets/auto_slideup_panel.dart';
-
 import 'package:pokedex_demo/ui/screens/pokemon_info/state_provider.dart';
 import 'package:pokedex_demo/ui/widgets/animated_fade.dart';
+import 'package:pokedex_demo/ui/widgets/animated_slide.dart';
+import 'package:pokedex_demo/ui/widgets/auto_slideup_panel.dart';
 import 'package:pokedex_demo/ui/widgets/hero.dart';
 import 'package:pokedex_demo/ui/widgets/main_app_bar.dart';
 import 'package:pokedex_demo/ui/widgets/main_tab_view.dart';
 import 'package:pokedex_demo/ui/widgets/pokemon_image.dart';
-// import 'package:pokedex_demo/ui/widgets/pokemon_type.dart';
+import 'package:pokedex_demo/ui/widgets/pokemon_type.dart';
+import 'package:pokedex_demo/ui/widgets/progress.dart';
+import 'package:pokedex_demo/utils/string.dart';
 
 part 'sections/background_decoration.dart';
-part 'sections/pokemon_info_card.dart';
 part 'sections/pokemon_overall_info.dart';
+part 'sections/pokemon_info_card.dart';
 part 'sections/pokemon_info_card_about.dart';
+part 'sections/pokemon_info_card_basestats.dart';
+part 'sections/pokemon_info_card_evolutions.dart';
 
-class PokemonInfoScreen extends StatefulWidget {
-  const PokemonInfoScreen({Key? key}) : super(key: key);
-
+class PokemonInfo extends StatefulWidget {
   @override
-  State<PokemonInfoScreen> createState() => _PokemonInfoScreenState();
+  _PokemonInfoState createState() => _PokemonInfoState();
 }
 
-class _PokemonInfoScreenState extends State<PokemonInfoScreen>
+class _PokemonInfoState extends State<PokemonInfo>
     with TickerProviderStateMixin {
   late AnimationController _slideController;
   late AnimationController _rotateController;
+
   @override
   void initState() {
     _slideController = AnimationController(
